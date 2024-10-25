@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.1",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
@@ -19,6 +20,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.0",
     "rimraf": "^6.0.1",
