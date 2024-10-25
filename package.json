@@ -13,6 +13,8 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "dot-env": "^0.0.1",
+    "env-var": "^7.5.0",
     "express": "^4.21.1",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",

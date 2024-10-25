@@ -2,11 +2,11 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import * as soap from "soap";
-import { AppDataSource } from "./data-source";
+import { AppDataSource, envs } from "./config";
 import { UserController } from "./controllers/user.controller";
 
 const app = express();
-const port = 3000;
+const port = Number(envs.PORT);
 
 AppDataSource.initialize()
   .then(() => {
