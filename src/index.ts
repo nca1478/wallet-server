@@ -2,23 +2,13 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import * as soap from "soap";
-import { createConnection } from "typeorm";
-import { User } from "./entities/user.entity";
+import { AppDataSource } from "./data-source";
 import { UserController } from "./controllers/user.controller";
 
 const app = express();
 const port = 3000;
 
-createConnection({
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "V1400nca$$",
-  database: "soap-db",
-  entities: [User],
-  synchronize: true,
-})
+AppDataSource.initialize()
   .then(() => {
     const wsdlPath = path.resolve(__dirname, "wsdl", "user.service.wsdl");
     const wsdl = fs.readFileSync(wsdlPath, "utf8");
@@ -42,4 +32,6 @@ createConnection({
       console.log(`SOAP server running on http://localhost:${port}/wsdl`);
     });
   })
-  .catch((error) => console.log(error));
+  .catch((error) =>
+    console.log("Error during Data Source initialization:", error)
+  );
