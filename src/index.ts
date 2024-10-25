@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import * as soap from "soap";
 import { AppDataSource, envs } from "./config";
-import { UserController } from "./controllers/user.controller";
+import { UserController } from "./controllers";
 
 const app = express();
 const port = Number(envs.PORT);
