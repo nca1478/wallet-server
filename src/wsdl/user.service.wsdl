@@ -19,7 +19,7 @@
             <xsd:element name="createUserResponse">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="id" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -27,14 +27,14 @@
             <xsd:element name="getUserRequest">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="id" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="getUserResponse">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="id" type="xsd:string"/>
                         <xsd:element name="name" type="xsd:string"/>
                         <xsd:element name="email" type="xsd:string"/>
                         <xsd:element name="password" type="xsd:string"/>
@@ -57,7 +57,7 @@
             </xsd:complexType>
             <xsd:complexType name="User">
                 <xsd:sequence>
-                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="id" type="xsd:string"/>
                     <xsd:element name="name" type="xsd:string"/>
                     <xsd:element name="email" type="xsd:string"/>
                     <xsd:element name="password" type="xsd:string"/>
@@ -67,7 +67,7 @@
             <xsd:element name="updateUserRequest">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="id" type="xsd:string"/>
                         <xsd:element name="name" type="xsd:string"/>
                         <xsd:element name="email" type="xsd:string"/>
                         <xsd:element name="password" type="xsd:string"/>
@@ -79,7 +79,7 @@
             <xsd:element name="deleteUserRequest">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="id" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
