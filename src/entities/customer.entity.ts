@@ -1,4 +1,11 @@
-import { Entity, Column, BeforeInsert, OneToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  BeforeInsert,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from "typeorm";
 import { ColumnCommon, User, Wallet } from "./index";
 
 @Entity("customers")
@@ -26,7 +33,6 @@ export class Customer extends ColumnCommon {
   @JoinColumn()
   user!: User;
 
-  @OneToOne(() => Wallet, (wallet) => wallet.customer)
-  @JoinColumn()
-  wallet!: Wallet;
+  @OneToMany(() => Wallet, (wallet) => wallet.customer)
+  wallet!: Wallet[];
 }

@@ -1,17 +1,18 @@
-import { Entity, Column, OneToOne } from "typeorm";
+import { Entity, Column, JoinColumn, ManyToOne } from "typeorm";
 import { ColumnCommon, Customer } from "./index";
 
 @Entity("wallets")
 export class Wallet extends ColumnCommon {
   @Column({ type: "varchar", nullable: true })
-  sessionId!: string;
+  sessionId?: string;
 
   @Column({ type: "varchar", nullable: true })
-  tokenId!: string;
+  tokenConfirm?: string;
 
   @Column({ type: "numeric", default: 0 })
-  available!: number;
+  available?: number;
 
-  @OneToOne(() => Customer, (customer) => customer.user)
+  @ManyToOne(() => Customer, (customer) => customer.user)
+  @JoinColumn()
   customer!: Customer;
 }

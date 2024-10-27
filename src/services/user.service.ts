@@ -1,10 +1,11 @@
 import { AppDataSource } from "../config/data-source.config";
 import { User } from "../entities";
-import { CustomerService } from "./customer.service";
+import { CustomerService, WalletService } from "./index";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User);
   private customerService = new CustomerService();
+  private walletService = new WalletService();
 
   async createUser(args: Partial<any>): Promise<User | any> {
     const createdUser = this.userRepository.create(args);
@@ -22,7 +23,17 @@ export class UserService {
       newCustomer
     );
 
-    return { ...savedUser, customer: createdCustomer.id };
+    const newWallet = {
+      customer: createdCustomer,
+    };
+
+    const createdWallet = await this.walletService.createWallet(newWallet);
+
+    return {
+      ...savedUser,
+      customer: createdCustomer.id,
+      wallet: createdWallet.id,
+    };
   }
 
   async getUser(id: string): Promise<User | null> {
