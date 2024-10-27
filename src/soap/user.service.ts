@@ -31,6 +31,6 @@ export class UserService {
   }
 
   public initialize(app: any): void {
-    soap.listen(app, "/wsdl", this.service, this.wsdl);
+    soap.listen(app, "/wsdl/user", this.service, this.wsdl);
   }
 }

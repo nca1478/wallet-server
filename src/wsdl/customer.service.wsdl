@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="CustomerService" targetNamespace="http://www.example.org/CustomerService/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.example.org/CustomerService/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://www.example.org/CustomerService/">
+            <xsd:element name="createCustomerRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                        <xsd:element name="dni" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="createCustomerResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="getCustomerRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getCustomerResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                        <xsd:element name="dni" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="getAllCustomersRequest" type="xsd:anyType"/>
+            <xsd:element name="getAllCustomersResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="customers" type="tns:CustomerArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="CustomerArray">
+                <xsd:sequence>
+                    <xsd:element name="customer" type="tns:Customer" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Customer">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                    <xsd:element name="cellular" type="xsd:string"/>
+                    <xsd:element name="dni" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="updateCustomerRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                        <xsd:element name="dni" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="updateCustomerResponse" type="xsd:anyType"/>
+
+            <xsd:element name="deleteCustomerRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="deleteCustomerResponse" type="xsd:anyType"/>
+        </xsd:schema>
+    </types>
+
+    <message name="createCustomerRequest">
+        <part name="parameters" element="tns:createCustomerRequest"/>
+    </message>
+    <message name="createCustomerResponse">
+        <part name="parameters" element="tns:createCustomerResponse"/>
+    </message>
+
+    <message name="getCustomerRequest">
+        <part name="parameters" element="tns:getCustomerRequest"/>
+    </message>
+    <message name="getCustomerResponse">
+        <part name="parameters" element="tns:getCustomerResponse"/>
+    </message>
+
+    <message name="getAllCustomersRequest">
+        <part name="parameters" element="tns:getAllCustomersRequest"/>
+    </message>
+    <message name="getAllCustomersResponse">
+        <part name="parameters" element="tns:getAllCustomersResponse"/>
+    </message>
+
+    <message name="updateCustomerRequest">
+        <part name="parameters" element="tns:updateCustomerRequest"/>
+    </message>
+    <message name="updateCustomerResponse">
+        <part name="parameters" element="tns:updateCustomerResponse"/>
+    </message>
+
+    <message name="deleteCustomerRequest">
+        <part name="parameters" element="tns:deleteCustomerRequest"/>
+    </message>
+    <message name="deleteCustomerResponse">
+        <part name="parameters" element="tns:deleteCustomerResponse"/>
+    </message>
+
+    <portType name="CustomerServicePortType">
+        <operation name="createCustomer">
+            <input message="tns:createCustomerRequest"/>
+            <output message="tns:createCustomerResponse"/>
+        </operation>
+        <operation name="getCustomer">
+            <input message="tns:getCustomerRequest"/>
+            <output message="tns:getCustomerResponse"/>
+        </operation>
+        <operation name="getAllCustomers">
+            <input message="tns:getAllCustomersRequest"/>
+            <output message="tns:getAllCustomersResponse"/>
+        </operation>
+        <operation name="updateCustomer">
+            <input message="tns:updateCustomerRequest"/>
+            <output message="tns:updateCustomerResponse"/>
+        </operation>
+        <operation name="deleteCustomer">
+            <input message="tns:deleteCustomerRequest"/>
+            <output message="tns:deleteCustomerResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="CustomerServiceSoapBinding" type="tns:CustomerServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="createCustomer">
+            <soap:operation soapAction="createCustomer"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getCustomer">
+            <soap:operation soapAction="getCustomer"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getAllCustomers">
+            <soap:operation soapAction="getAllCustomers"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="updateCustomer">
+            <soap:operation soapAction="updateCustomer"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="deleteCustomer">
+            <soap:operation soapAction="deleteCustomer"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="CustomerService">
+        <port name="CustomerServiceSoapPort" binding="tns:CustomerServiceSoapBinding">
+            <soap:address location="http://localhost:3000/wsdl/customer"/>
+        </port>
+    </service>
+</definitions>

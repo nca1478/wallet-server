@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm";
-import { User } from "../entities/user.entity";
 import { envs } from "./envs.config";
 
 export const AppDataSource = new DataSource({
@@ -9,6 +8,6 @@ export const AppDataSource = new DataSource({
   username: envs.DB_USERNAME,
   password: envs.DB_PASSWORD,
   database: envs.DB_NAME,
-  entities: [User],
+  entities: [`${process.cwd()}/src/entities/*.entity.{ts,js}`],
   synchronize: envs.DB_SYNCHRONIZE,
 });
