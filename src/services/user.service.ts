@@ -1,12 +1,28 @@
 import { AppDataSource } from "../config/data-source.config";
 import { User } from "../entities";
+import { CustomerService } from "./customer.service";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User);
+  private customerService = new CustomerService();
 
-  async createUser(user: Partial<User>): Promise<User> {
-    const newUser = this.userRepository.create(user);
-    return this.userRepository.save(newUser);
+  async createUser(args: Partial<any>): Promise<User | any> {
+    const createdUser = this.userRepository.create(args);
+    const savedUser = await this.userRepository.save(createdUser);
+
+    const newCustomer = {
+      name: args.name,
+      email: args.email,
+      cellular: args.cellular,
+      dni: args.dni,
+      user: savedUser,
+    };
+
+    const createdCustomer = await this.customerService.createCustomer(
+      newCustomer
+    );
+
+    return { ...savedUser, customer: createdCustomer.id };
   }
 
   async getUser(id: string): Promise<User | null> {

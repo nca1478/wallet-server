@@ -1,18 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
+import { Entity, Column, BeforeInsert, OneToOne } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { ColumnCommon, Customer } from "./index";
 
-@Entity("user")
-export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
-
-  @Column()
+@Entity("users")
+export class User extends ColumnCommon {
+  @Column("varchar")
   name!: string;
 
-  @Column()
+  @Column("varchar")
   email!: string;
 
-  @Column()
+  @Column("varchar")
   password!: string;
 
   private tempPassword!: string;
@@ -28,4 +26,7 @@ export class User {
       this.password = await bcrypt.hash(this.password, salt);
     }
   }
+
+  @OneToOne(() => Customer, (customer) => customer.user)
+  customer!: Customer;
 }

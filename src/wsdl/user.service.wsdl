@@ -13,6 +13,8 @@
                         <xsd:element name="name" type="xsd:string"/>
                         <xsd:element name="email" type="xsd:string"/>
                         <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                        <xsd:element name="dni" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
