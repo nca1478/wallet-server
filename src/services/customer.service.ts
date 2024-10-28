@@ -13,6 +13,12 @@ export class CustomerService {
     return this.customerRepository.findOne({ where: { id } });
   }
 
+  async getCustomerByTerm(args: any): Promise<Customer | null> {
+    return this.customerRepository.findOne({
+      where: { cellular: args.cellular, dni: args.dni },
+    });
+  }
+
   async getAllCustomers(): Promise<Customer[]> {
     return this.customerRepository.find();
   }
