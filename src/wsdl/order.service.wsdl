@@ -10,6 +10,8 @@
             <xsd:element name="createOrderRequest">
                 <xsd:complexType>
                     <xsd:sequence>
+                        <xsd:element name="dni" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
                         <xsd:element name="tokenConfirm" type="xsd:string"/>
                         <xsd:element name="amount" type="xsd:decimal"/>
                         <xsd:element name="customerId" type="xsd:string"/>
