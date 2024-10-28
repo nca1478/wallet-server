@@ -13,4 +13,14 @@ export const envs = {
   DB_PASSWORD: get("DB_PASSWORD").required().asString(),
   DB_NAME: get("DB_NAME").required().asString(),
   DB_SYNCHRONIZE: get("DB_SYNCHRONIZE").required().asBool(),
+
+  EMAIL_SERVICE: get("EMAIL_SERVICE").required().asString(),
+  EMAIL_HOST: get("EMAIL_HOST").required().asString(),
+  EMAIL_PORT: get("EMAIL_PORT").required().asPortNumber(),
+  EMAIL_AUTH_USER: get("EMAIL_AUTH_USER").required().asEmailString(),
+  EMAIL_AUTH_PASS: get("EMAIL_AUTH_PASS").required().asString(),
+  EMAIL_SECURE: get("EMAIL_SECURE").required().asBool(),
+  EMAIL_REJECT_UNAUTHORIZED: get("EMAIL_REJECT_UNAUTHORIZED")
+    .required()
+    .asBool(),
 };

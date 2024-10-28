@@ -1,13 +1,19 @@
 import { AppDataSource } from "../config/data-source.config";
 import { Order } from "../entities";
 import { Utils } from "../utils";
-import { CustomerService, TokenService, WalletService } from "./index";
+import {
+  CustomerService,
+  EmailService,
+  TokenService,
+  WalletService,
+} from "./index";
 
 export class OrderService {
   private orderRepository = AppDataSource.getRepository(Order);
   private customerService = new CustomerService();
   private walletService = new WalletService();
   private tokenService = new TokenService();
+  private emailService = new EmailService();
 
   async createOrder(args: any): Promise<any> {
     try {
@@ -45,7 +51,17 @@ export class OrderService {
         customer,
       });
 
-      await this.orderRepository.save(newOrder);
+      const order = await this.orderRepository.save(newOrder);
+
+      // send email
+      const emailArgs = {
+        sessionId,
+        order,
+        tokenConfirm,
+        email: customer.email,
+      };
+
+      await this.emailService.sendOrderEmail(emailArgs);
 
       return { sessionId, amount, tokenConfirm, customer: customer.id };
     } catch (error: any) {
