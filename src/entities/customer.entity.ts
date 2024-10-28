@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { ColumnCommon, User, Wallet } from "./index";
+import { Order } from "./index";
 
 @Entity("customers")
 export class Customer extends ColumnCommon {
@@ -35,4 +36,7 @@ export class Customer extends ColumnCommon {
 
   @OneToMany(() => Wallet, (wallet) => wallet.customer)
   wallet!: Wallet[];
+
+  @OneToMany(() => Order, (order) => order.customer)
+  order!: Order[];
 }
