@@ -6,7 +6,7 @@ import { CustomerController } from "../controllers";
 export class CustomerService {
   private wsdlPath: string;
   private wsdl: string;
-  private customerController: CustomerController;
+  private customerController = new CustomerController();
 
   constructor() {
     this.wsdlPath = path.resolve(
@@ -16,7 +16,6 @@ export class CustomerService {
       "customer.service.wsdl"
     );
     this.wsdl = fs.readFileSync(this.wsdlPath, "utf8");
-    this.customerController = new CustomerController();
   }
 
   public get service() {

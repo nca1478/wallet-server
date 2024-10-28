@@ -6,12 +6,11 @@ import { UserController } from "../controllers";
 export class UserService {
   private wsdlPath: string;
   private wsdl: string;
-  private userController: UserController;
+  private userController = new UserController();
 
   constructor() {
     this.wsdlPath = path.resolve(__dirname, "..", "wsdl", "user.service.wsdl");
     this.wsdl = fs.readFileSync(this.wsdlPath, "utf8");
-    this.userController = new UserController();
   }
 
   public get service() {
