@@ -8,4 +8,12 @@ export class WalletService {
     const createdWallet = this.walletRepository.create(wallet);
     return await this.walletRepository.save(createdWallet);
   }
+
+  async rechargeWallet(args: any): Promise<any> {
+    return { dni: args.dni, cellular: args.cellular };
+  }
+
+  async getAvailableWallet(args: any): Promise<any> {
+    return { dni: args.dni, cellular: args.cellular };
+  }
 }

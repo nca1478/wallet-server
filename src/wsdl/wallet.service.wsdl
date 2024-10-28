@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WalletService" targetNamespace="http://www.example.org/WalletService/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.example.org/WalletService/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://www.example.org/WalletService/">
+            <xsd:element name="rechargeWalletRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="dni" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                        <xsd:element name="value" type="xsd:decimal"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="rechargeWalletResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="getAvailableWalletRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="dni" type="xsd:string"/>
+                        <xsd:element name="cellular" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getAvailableWalletResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="rechargeWalletRequest">
+        <part name="parameters" element="tns:rechargeWalletRequest"/>
+    </message>
+    <message name="rechargeWalletResponse">
+        <part name="parameters" element="tns:rechargeWalletResponse"/>
+    </message>
+
+    <message name="getAvailableWalletRequest">
+        <part name="parameters" element="tns:getAvailableWalletRequest"/>
+    </message>
+    <message name="getAvailableWalletResponse">
+        <part name="parameters" element="tns:getAvailableWalletResponse"/>
+    </message>
+
+    <portType name="WalletServicePortType">
+        <operation name="rechargeWallet">
+            <input message="tns:rechargeWalletRequest"/>
+            <output message="tns:rechargeWalletResponse"/>
+        </operation>
+        <operation name="getAvailableWallet">
+            <input message="tns:getAvailableWalletRequest"/>
+            <output message="tns:getAvailableWalletResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="WalletServiceSoapBinding" type="tns:WalletServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="rechargeWallet">
+            <soap:operation soapAction="rechargeWallet"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getAvailableWallet">
+            <soap:operation soapAction="getAvailableWallet"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="WalletService">
+        <port name="WalletServiceSoapPort" binding="tns:WalletServiceSoapBinding">
+            <soap:address location="http://localhost:3000/wsdl/wallet"/>
+        </port>
+    </service>
+</definitions>
