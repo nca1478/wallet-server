@@ -1,6 +1,6 @@
 import * as nodemailer from "nodemailer";
 import { envs } from "../config";
-import { sendOrderEmail } from "../templates";
+import { confirmedOrderEmail, sendOrderEmail } from "../templates";
 
 export class EmailService {
   async sendOrderEmail(args: any): Promise<any> {
@@ -8,6 +8,13 @@ export class EmailService {
     const subject = "Confirmar pago de la Orden";
     const urlRedirect = `${envs.API_HOST}:${envs.API_PORT}/orders/confirm?sessionId=${sessionId}`;
     const templateHTML = sendOrderEmail(args, urlRedirect);
+
+    return this.sendEmail({ email, subject, templateHTML });
+  }
+
+  async confirmedOrderEmail(email: string): Promise<any> {
+    const subject = "Tu orden ha sido confirmada";
+    const templateHTML = confirmedOrderEmail();
 
     return this.sendEmail({ email, subject, templateHTML });
   }

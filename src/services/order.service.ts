@@ -116,6 +116,13 @@ export class OrderService {
       order!.status = OrderStatus.PAID;
       this.orderRepository.save(order!);
 
+      const customer = await this.customerService.getCustomer(
+        order!.customer.id
+      );
+
+      // notificación por email
+      await this.emailService.confirmedOrderEmail(customer!.email);
+
       return { msg: "Orden confirmada exitosamente" };
     } catch (error: any) {
       throw new Error(error);
