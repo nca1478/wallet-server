@@ -2,11 +2,14 @@ import fs from "fs";
 import path from "path";
 import * as soap from "soap";
 import { WalletController } from "../controllers";
+import { envs } from "../config";
 
 export class WalletService {
   private wsdlPath: string;
   private wsdl: string;
   private walletController = new WalletController();
+  private soapRoute = "/wsdl/wallet";
+  private urlService = `${envs.API_HOST}:${envs.API_PORT}${this.soapRoute}`;
 
   constructor() {
     this.wsdlPath = path.resolve(
@@ -34,6 +37,7 @@ export class WalletService {
   }
 
   public initialize(app: any): void {
-    soap.listen(app, "/wsdl/wallet", this.service, this.wsdl);
+    soap.listen(app, this.soapRoute, this.service, this.wsdl);
+    console.log("Wallet Service running on", this.urlService);
   }
 }

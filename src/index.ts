@@ -3,7 +3,8 @@ import { AppDataSource, envs } from "./config";
 import { SoapServices } from "./soap";
 
 const app = express();
-const port = Number(envs.PORT);
+const port = Number(envs.API_PORT);
+const host = envs.API_HOST;
 
 AppDataSource.initialize()
   .then(() => {
@@ -11,7 +12,7 @@ AppDataSource.initialize()
     soapServices.start();
 
     app.listen(port, () => {
-      console.log(`SOAP server running on http://localhost:${port}/wsdl`);
+      console.log(`SOAP server running on ${host}:${port}/wsdl`);
     });
   })
   .catch((error) =>

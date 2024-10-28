@@ -2,11 +2,14 @@ import fs from "fs";
 import path from "path";
 import * as soap from "soap";
 import { UserController } from "../controllers";
+import { envs } from "../config";
 
 export class UserService {
   private wsdlPath: string;
   private wsdl: string;
   private userController = new UserController();
+  private soapRoute = "/wsdl/user";
+  private urlService = `${envs.API_HOST}:${envs.API_PORT}${this.soapRoute}`;
 
   constructor() {
     this.wsdlPath = path.resolve(__dirname, "..", "wsdl", "user.service.wsdl");
@@ -30,6 +33,7 @@ export class UserService {
   }
 
   public initialize(app: any): void {
-    soap.listen(app, "/wsdl/user", this.service, this.wsdl);
+    soap.listen(app, this.soapRoute, this.service, this.wsdl);
+    console.log("User Service running on", this.urlService);
   }
 }

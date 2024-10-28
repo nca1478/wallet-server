@@ -2,7 +2,8 @@ import "dotenv/config";
 import { get } from "env-var";
 
 export const envs = {
-  PORT: get("PORT").required().asPortNumber(),
+  API_PORT: get("API_PORT").required().asPortNumber(),
+  API_HOST: get("API_HOST").required().asString(),
   JWT_SEED: get("JWT_SEED").required().asString(),
 
   DB_HOST: get("DB_HOST").required().asString(),
