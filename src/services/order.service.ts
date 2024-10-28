@@ -40,10 +40,6 @@ export class OrderService {
         throw new Error("No hay disponibilidad en la billetera");
       }
 
-      const sessionId = await this.tokenService.createToken({
-        customerId: customer.id,
-      });
-
       const tokenConfirm = Utils.generateRandomToken();
 
       // crear/guardar orden de pago
@@ -54,6 +50,10 @@ export class OrderService {
       });
 
       const order = await this.orderRepository.save(newOrder);
+
+      const sessionId = await this.tokenService.createToken({
+        orderId: order.id,
+      });
 
       const emailArgs = {
         sessionId,
@@ -83,9 +83,9 @@ export class OrderService {
       const { sessionId, tokenConfirm } = args;
 
       // verificar sessionId y obtener id de la orden
-      const { id } = await this.tokenService.decodeToken(sessionId);
+      const { orderId } = await this.tokenService.decodeToken(sessionId);
 
-      const order = await this.getOrder(id);
+      const order = await this.getOrder(orderId);
 
       if (order!.status === OrderStatus.PAID) {
         throw new Error("La orden ya fué pagada");
