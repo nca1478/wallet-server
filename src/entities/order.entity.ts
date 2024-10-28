@@ -2,6 +2,11 @@ import * as bcrypt from "bcrypt";
 import { Entity, Column, ManyToOne, JoinColumn, BeforeInsert } from "typeorm";
 import { ColumnCommon, Customer } from "./index";
 
+export enum OrderStatus {
+  PENDING = "pending",
+  PAID = "paid",
+}
+
 @Entity("orders")
 export class Order extends ColumnCommon {
   //   @Column({ type: "varchar", nullable: true })
@@ -12,6 +17,13 @@ export class Order extends ColumnCommon {
 
   @Column({ type: "numeric", default: 0 })
   amount!: number;
+
+  @Column({
+    type: "enum",
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
+  status!: OrderStatus;
 
   @ManyToOne(() => Customer, (customer) => customer.order)
   @JoinColumn()

@@ -23,6 +23,21 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="confirmOrderRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="tokenConfirm" type="xsd:string"/>
+                        <xsd:element name="sessionId" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="confirmOrderResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:schema>
     </types>
 
@@ -32,11 +47,21 @@
     <message name="createOrderResponse">
         <part name="parameters" element="tns:createOrderResponse"/>
     </message>
+    <message name="confirmOrderRequest">
+        <part name="parameters" element="tns:confirmOrderRequest"/>
+    </message>
+    <message name="confirmOrderResponse">
+        <part name="parameters" element="tns:confirmOrderResponse"/>
+    </message>
 
     <portType name="OrderServicePortType">
         <operation name="createOrder">
             <input message="tns:createOrderRequest"/>
             <output message="tns:createOrderResponse"/>
+        </operation>
+        <operation name="confirmOrder">
+            <input message="tns:confirmOrderRequest"/>
+            <output message="tns:confirmOrderResponse"/>
         </operation>
     </portType>
 
@@ -44,6 +69,15 @@
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
         <operation name="createOrder">
             <soap:operation soapAction="createOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="confirmOrder">
+            <soap:operation soapAction="confirmOrder"/>
             <input>
                 <soap:body use="literal"/>
             </input>

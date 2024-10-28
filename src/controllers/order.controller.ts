@@ -6,4 +6,8 @@ export class OrderController {
   async createOrder(args: any) {
     return this.orderService.createOrder(args);
   }
+
+  async confirmOrder(args: any) {
+    return this.orderService.confirmOrder(args);
+  }
 }

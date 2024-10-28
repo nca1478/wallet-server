@@ -40,7 +40,7 @@ export class WalletService {
   async getAvailableWallet(args: any): Promise<any> {
     const customer = await this.customerService.getCustomerByTerm(args);
     if (!customer) {
-      throw new Error("Cliente no encontrado");
+      throw new Error("Cliente o Billetera no encontrada");
     }
 
     const wallet = await this.walletRepository.findOne({
@@ -53,5 +53,22 @@ export class WalletService {
     };
 
     return responseWallet;
+  }
+
+  async getWallet(customerId: string): Promise<Wallet | null> {
+    return await this.walletRepository.findOne({
+      where: { customer: { id: customerId } },
+    });
+  }
+
+  async discountWallet(wallet: Wallet, amount: number) {
+    if (Number(wallet.available) < Number(amount)) {
+      return false;
+    }
+
+    wallet.available = Number(wallet.available) - Number(amount);
+    this.walletRepository.save(wallet);
+
+    return true;
   }
 }

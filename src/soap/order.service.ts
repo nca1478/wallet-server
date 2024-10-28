@@ -23,6 +23,7 @@ export class OrderService {
       OrderService: {
         OrderServiceSoapPort: {
           createOrder: orderController.createOrder.bind(orderController),
+          confirmOrder: orderController.confirmOrder.bind(orderController),
         },
       },
     };
