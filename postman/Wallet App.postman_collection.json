@@ -1,0 +1,365 @@
+{
+	"info": {
+		"_postman_id": "e3f8ddeb-90d8-4c4f-b28f-d5e72247e361",
+		"name": "Wallet App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4677971"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"tests[\"Response has data\"] = _.has(jsonData, 'data');\r",
+									"\r",
+									"pm.environment.set(\"user_id\", jsonData.data.id);\r",
+									"pm.environment.set(\"customer_id\", jsonData.data.customer);\r",
+									"pm.environment.set(\"wallet_id\", jsonData.data.wallet);\r",
+									"\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"pm.environment.set(\"cellular\", requestBody.cellular);\r",
+									"pm.environment.set(\"dni\", requestBody.dni);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar.correo.real@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Name Updated\",\r\n    \"email\": \"colocar.correo.real@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "GetOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/customers/{{customer_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"customers",
+								"{{customer_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/customers",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar.correo.real@gmail.com\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/customers/{{customer_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"customers",
+								"{{customer_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/customers/{{customer_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"customers",
+								"{{customer_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "Recharge",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n    \"dni\": \"{{dni}}\",\r\n    \"cellular\": \"{{cellular}}\",\r\n    \"value\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/wallets/recharge",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"wallets",
+								"recharge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n    \"dni\": \"{{dni}}\",\r\n    \"cellular\": \"{{cellular}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/wallets/get-available",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"wallets",
+								"get-available"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"tests[\"Response has data\"] = _.has(jsonData, 'data');\r",
+									"\r",
+									"pm.environment.set(\"sessionId\", jsonData.data.sessionId);\r",
+									"pm.environment.set(\"tokenConfirm\", jsonData.data.tokenConfirm);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\": \"{{dni}}\",\r\n    \"cellular\": \"{{cellular}}\",\r\n    \"amount\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/orders/create",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"orders",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sessionId\": \"{{sessionId}}\",\r\n    \"tokenConfirm\": \"{{tokenConfirm}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/orders/confirm",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"orders",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
