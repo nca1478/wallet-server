@@ -12,7 +12,7 @@ export class UserService {
   private urlService = `${envs.API_HOST}:${envs.API_PORT}${this.soapRoute}`;
 
   constructor() {
-    this.wsdlPath = path.resolve(__dirname, "..", "wsdl", "user.service.wsdl");
+    this.wsdlPath = path.resolve(`${process.cwd()}/wsdl/user.service.wsdl`);
     this.wsdl = fs.readFileSync(this.wsdlPath, "utf8");
   }
 

@@ -12,12 +12,7 @@ export class WalletService {
   private urlService = `${envs.API_HOST}:${envs.API_PORT}${this.soapRoute}`;
 
   constructor() {
-    this.wsdlPath = path.resolve(
-      __dirname,
-      "..",
-      "wsdl",
-      "wallet.service.wsdl"
-    );
+    this.wsdlPath = path.resolve(`${process.cwd()}/wsdl/wallet.service.wsdl`);
     this.wsdl = fs.readFileSync(this.wsdlPath, "utf8");
   }
 

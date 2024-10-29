@@ -9,5 +9,5 @@ export const AppDataSource = new DataSource({
   password: envs.DB_PASSWORD,
   database: envs.DB_NAME,
   entities: [`${process.cwd()}/src/entities/*.entity.{ts,js}`],
-  synchronize: envs.DB_SYNCHRONIZE,
+  synchronize: Boolean(envs.DB_SYNCHRONIZE),
 });
