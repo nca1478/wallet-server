@@ -39,7 +39,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar.correo.real@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar-correo-real@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -100,7 +100,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Name Updated\",\r\n    \"email\": \"colocar.correo.real@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Name Updated\",\r\n    \"email\": \"colocar-correo-real@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -185,7 +185,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar.correo.real@gmail.com\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"colocar-correo-real@gmail.com\",\r\n    \"cellular\": \"{{$randomPhoneNumber}}\",\r\n    \"dni\": \"{{$timestamp}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
