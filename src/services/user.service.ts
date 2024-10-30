@@ -1,5 +1,6 @@
 import { AppDataSource } from "../config/data-source.config";
 import { User } from "../entities";
+import { BodyValidation } from "../utils";
 import { CustomerService, WalletService } from "./index";
 
 export class UserService {
@@ -8,36 +9,54 @@ export class UserService {
   private walletService = new WalletService();
 
   async createUser(args: Partial<any>): Promise<User | any> {
-    const createdUser = this.userRepository.create(args);
-    const savedUser = await this.userRepository.save(createdUser);
+    try {
+      BodyValidation.validateUser(args);
 
-    const newCustomer = {
-      name: args.name,
-      email: args.email,
-      cellular: args.cellular,
-      dni: args.dni,
-      user: savedUser,
-    };
+      const { email } = args;
 
-    const createdCustomer = await this.customerService.createCustomer(
-      newCustomer
-    );
+      const findUser = await this.getUserByEmail(email);
+      if (findUser) {
+        throw new Error("Usuario ya está registrado");
+      }
 
-    const newWallet = {
-      customer: createdCustomer,
-    };
+      const createdUser = this.userRepository.create(args);
 
-    const createdWallet = await this.walletService.createWallet(newWallet);
+      const savedUser = await this.userRepository.save(createdUser);
 
-    return {
-      ...savedUser,
-      customer: createdCustomer.id,
-      wallet: createdWallet.id,
-    };
+      const newCustomer = {
+        name: args.name,
+        email: args.email,
+        cellular: args.cellular,
+        dni: args.dni,
+        user: savedUser,
+      };
+
+      const createdCustomer = await this.customerService.createCustomer(
+        newCustomer
+      );
+
+      const newWallet = {
+        customer: createdCustomer,
+      };
+
+      const createdWallet = await this.walletService.createWallet(newWallet);
+
+      return {
+        ...savedUser,
+        customer: createdCustomer.id,
+        wallet: createdWallet.id,
+      };
+    } catch (error: any) {
+      throw error;
+    }
   }
 
   async getUser(id: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { id } });
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
   async getAllUsers(): Promise<User[]> {

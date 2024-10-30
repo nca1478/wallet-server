@@ -1,6 +1,6 @@
 import { AppDataSource } from "../config/data-source.config";
 import { Order } from "../entities";
-import { Utils } from "../utils";
+import { BodyValidation, Utils } from "../utils";
 import * as bcrypt from "bcrypt";
 import {
   CustomerService,
@@ -19,6 +19,8 @@ export class OrderService {
 
   async createOrder(args: any): Promise<any> {
     try {
+      BodyValidation.validateCreateOrder(args);
+
       const { amount } = args;
       const amountNumber = Number(amount);
 
@@ -67,7 +69,7 @@ export class OrderService {
 
       return { sessionId, amount, tokenConfirm, customer: customer.id };
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   }
 
@@ -80,6 +82,8 @@ export class OrderService {
 
   async confirmOrder(args: any): Promise<any> {
     try {
+      BodyValidation.validateConfirmOrder(args);
+
       const { sessionId, tokenConfirm } = args;
 
       // verificar sessionId y obtener id de la orden
@@ -125,7 +129,7 @@ export class OrderService {
 
       return { msg: "Orden confirmada exitosamente" };
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   }
 }
