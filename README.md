@@ -27,12 +27,14 @@ Aplicación con servicio soap y servicio rest que simula una billetera virtual. 
 - ExpressJS.
 - Postgres.
 - Typeorm.
+- Soap.
 
 ## Requerimientos
 
 - Nodejs v20.12.0.
 - PostgreSQL 16.
 - Postman v11.
+- Soap 1.1.5
 
 ## Instalación
 
