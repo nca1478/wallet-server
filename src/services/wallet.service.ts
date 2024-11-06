@@ -1,11 +1,13 @@
 import { AppDataSource } from "../config/data-source.config";
 import { Wallet } from "../entities";
-import { BodyValidation } from "../utils";
+import { SoapError } from "../errors";
+import { BadRequestException, NotFoundException } from "../exceptions";
 import { CustomerService } from "./customer.service";
 
 export class WalletService {
   private walletRepository = AppDataSource.getRepository(Wallet);
   private customerService = new CustomerService();
+  private soapError = new SoapError();
 
   async createWallet(wallet: Partial<Wallet>): Promise<Wallet> {
     const createdWallet = this.walletRepository.create(wallet);
@@ -14,24 +16,24 @@ export class WalletService {
 
   async rechargeWallet(args: any): Promise<any> {
     try {
-      BodyValidation.validateRechargeWallet(args);
-
       const { value } = args;
 
       if (isNaN(value) || Number(value) <= 0) {
-        throw new Error("El valor debe ser un número mayor que 0");
+        throw new BadRequestException(
+          "El valor debe ser un número mayor que 0"
+        );
       }
 
       const customer = await this.customerService.getCustomerByTerm(args);
       if (!customer) {
-        throw new Error("Cliente no encontrado");
+        throw new NotFoundException("Cliente no encontrado");
       }
 
       const wallet = await this.walletRepository.findOne({
         where: { customer },
       });
       if (!wallet) {
-        throw new Error("Billetera no encontrada");
+        throw new NotFoundException("Billetera no encontrada");
       }
 
       wallet.available = Number(wallet.available) + Number(value);
@@ -41,18 +43,16 @@ export class WalletService {
         id: wallet.id,
         available: wallet.available,
       };
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      this.soapError.handle(error);
     }
   }
 
   async getAvailableWallet(args: any): Promise<any> {
     try {
-      BodyValidation.validateWallet(args);
-
       const customer = await this.customerService.getCustomerByTerm(args);
       if (!customer) {
-        throw new Error("Cliente o Billetera no encontrada");
+        throw new NotFoundException("Cliente o Billetera no encontrada");
       }
 
       const wallet = await this.walletRepository.findOne({
@@ -66,7 +66,7 @@ export class WalletService {
 
       return responseWallet;
     } catch (error) {
-      throw error;
+      this.soapError.handle(error);
     }
   }
 
