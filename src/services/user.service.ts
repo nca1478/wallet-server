@@ -1,22 +1,22 @@
 import { AppDataSource } from "../config/data-source.config";
 import { User } from "../entities";
-import { BodyValidation } from "../utils";
+import { SoapError } from "../errors";
+import { BadRequestException } from "../exceptions";
 import { CustomerService, WalletService } from "./index";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User);
   private customerService = new CustomerService();
   private walletService = new WalletService();
+  private soapError = new SoapError();
 
   async createUser(args: Partial<any>): Promise<User | any> {
     try {
-      BodyValidation.validateUser(args);
-
       const { email } = args;
 
       const findUser = await this.getUserByEmail(email);
       if (findUser) {
-        throw new Error("Usuario ya está registrado");
+        throw new BadRequestException("Usuario ya está registrado");
       }
 
       const createdUser = this.userRepository.create(args);
@@ -47,7 +47,7 @@ export class UserService {
         wallet: createdWallet.id,
       };
     } catch (error: any) {
-      throw error;
+      this.soapError.handle(error);
     }
   }
 
