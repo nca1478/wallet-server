@@ -1,41 +1,41 @@
 export class WalletValidation {
-  public static validateRechargeWallet(args: any) {
-    try {
+  public static validateRecharge(args: any) {
+    return new Promise((resolve, reject) => {
       if (!args) {
-        throw new Error("Datos de recarga son requeridos");
+        reject("Datos de recarga son requeridos");
       }
 
       if (!args.dni) {
-        throw new Error("El dni es requerido");
+        reject("El dni es requerido");
       }
 
       if (!args.cellular) {
-        throw new Error("El cellular es requerido");
+        reject("El cellular es requerido");
       }
 
       if (!args.value) {
-        throw new Error("El valor de la recarga es requerido");
+        reject("El valor de la recarga es requerido");
       }
-    } catch (error) {
-      throw error;
-    }
+
+      resolve(args);
+    });
   }
 
-  public static validateWallet(args: any) {
-    try {
+  public static validate(args: any) {
+    return new Promise((resolve, reject) => {
       if (!args) {
-        throw new Error("Datos del wallet son requeridos");
+        reject("Datos del wallet son requeridos");
       }
 
       if (!args.dni) {
-        throw new Error("El dni es requerido");
+        reject("El dni es requerido");
       }
 
       if (!args.cellular) {
-        throw new Error("El cellular es requerido");
+        reject("El cellular es requerido");
       }
-    } catch (error) {
-      throw error;
-    }
+
+      resolve(args);
+    });
   }
 }
