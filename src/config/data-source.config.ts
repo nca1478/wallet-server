@@ -1,6 +1,11 @@
-import path from "path";
 import { DataSource } from "typeorm";
 import { envs } from "./envs.config";
+
+const env = envs.NODE_ENV;
+const entities =
+  env === "development"
+    ? `${process.cwd()}/src/entities/*.entity.{ts,js}`
+    : `${process.cwd()}/dist/entities/*.entity.{ts,js}`;
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -9,6 +14,6 @@ export const AppDataSource = new DataSource({
   username: envs.DB_USERNAME,
   password: envs.DB_PASSWORD,
   database: envs.DB_NAME,
-  entities: [path.join(__dirname, "../src/entities/*.entity.{ts,js}")],
+  entities: [entities],
   synchronize: Boolean(envs.DB_SYNCHRONIZE),
 });

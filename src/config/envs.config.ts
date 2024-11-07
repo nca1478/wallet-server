@@ -6,6 +6,7 @@ export const envs = {
   API_HOST: get("API_HOST").required().asString(),
   JWT_SESSION_SECRET: get("JWT_SESSION_SECRET").required().asString(),
   JWT_EXPIRATION: get("JWT_EXPIRATION").required().asString(),
+  NODE_ENV: get("NODE_ENV").required().asString(),
 
   DB_HOST: get("DB_HOST").required().asString(),
   DB_PORT: get("DB_PORT").required().asPortNumber(),
