@@ -8,11 +8,18 @@ export class TokenService {
   }
 
   async decodeToken(token: string): Promise<any> {
-    try {
-      const decoded = jwt.verify(token, jwtConfig.secret);
-      return decoded;
-    } catch (error) {
-      throw new Error("ID de Sessión no inválido o expirado");
-    }
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, jwtConfig.secret, (err, decoded) => {
+        if (err) {
+          if (err.name === "TokenExpiredError") {
+            reject("sessionId ha expirado. Debe crear una nueva orden.");
+          } else {
+            reject("sessionId no válido");
+          }
+        }
+
+        resolve(decoded);
+      });
+    });
   }
 }

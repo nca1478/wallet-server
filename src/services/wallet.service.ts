@@ -19,9 +19,7 @@ export class WalletService {
       const { value } = args;
 
       if (isNaN(value) || Number(value) <= 0) {
-        throw new BadRequestException(
-          "El valor debe ser un número mayor que 0"
-        );
+        throw new BadRequestException("El valor debe ser válido o mayor que 0");
       }
 
       const customer = await this.customerService.getCustomerByTerm(args);

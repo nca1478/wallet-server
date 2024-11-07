@@ -1,7 +1,7 @@
+import * as bcrypt from "bcrypt";
 import { AppDataSource } from "../config/data-source.config";
 import { Order } from "../entities";
-import { BodyValidation, Utils } from "../utils";
-import * as bcrypt from "bcrypt";
+import { Utils } from "../utils";
 import {
   CustomerService,
   EmailService,
@@ -9,6 +9,8 @@ import {
   WalletService,
 } from "./index";
 import { OrderStatus } from "../entities/order.entity";
+import { SoapError } from "../errors";
+import { BadRequestException, NotFoundException } from "../exceptions";
 
 export class OrderService {
   private orderRepository = AppDataSource.getRepository(Order);
@@ -16,30 +18,31 @@ export class OrderService {
   private walletService = new WalletService();
   private tokenService = new TokenService();
   private emailService = new EmailService();
+  private soapError = new SoapError();
 
   async createOrder(args: any): Promise<any> {
     try {
-      BodyValidation.validateCreateOrder(args);
-
       const { amount } = args;
       const amountNumber = Number(amount);
 
       if (isNaN(amount) || amountNumber <= 0) {
-        throw new Error("El monto de la orden debe ser un número mayor que 0");
+        throw new BadRequestException(
+          "El monto de la orden debe ser un número mayor que 0"
+        );
       }
 
       const customer = await this.customerService.getCustomerByTerm(args);
       if (!customer) {
-        throw new Error("Cliente no encontrado");
+        throw new NotFoundException("Cliente no encontrado");
       }
 
       const wallet = await this.walletService.getAvailableWallet(args);
       if (!wallet) {
-        throw new Error("Billetera no encontrada");
+        throw new NotFoundException("Billetera no encontrada");
       }
 
       if (amountNumber > Number(wallet.available)) {
-        throw new Error("No hay disponibilidad en la billetera");
+        throw new BadRequestException("No hay disponibilidad en la billetera");
       }
 
       const tokenConfirm = Utils.generateRandomToken();
@@ -69,7 +72,7 @@ export class OrderService {
 
       return { sessionId, amount, tokenConfirm, customer: customer.id };
     } catch (error: any) {
-      throw error;
+      this.soapError.handle(error);
     }
   }
 
@@ -82,17 +85,19 @@ export class OrderService {
 
   async confirmOrder(args: any): Promise<any> {
     try {
-      BodyValidation.validateConfirmOrder(args);
-
       const { sessionId, tokenConfirm } = args;
 
       // verificar sessionId y obtener id de la orden
-      const { orderId } = await this.tokenService.decodeToken(sessionId);
+      const { orderId } = await this.tokenService
+        .decodeToken(sessionId)
+        .catch((error) => {
+          throw new BadRequestException(error);
+        });
 
       const order = await this.getOrder(orderId);
 
       if (order!.status === OrderStatus.PAID) {
-        throw new Error("La orden ya fué pagada");
+        throw new BadRequestException("La orden ya fué pagada");
       }
 
       // validar tokenConfirm (el token de 6 digitos)
@@ -100,7 +105,9 @@ export class OrderService {
         !tokenConfirm ||
         !bcrypt.compareSync(tokenConfirm, order!.tokenConfirm)
       ) {
-        throw new Error("Token para confirmar la orden no válido");
+        throw new BadRequestException(
+          "Token para confirmar la orden no válido"
+        );
       }
 
       const wallet: any = await this.walletService.getWallet(
@@ -114,7 +121,9 @@ export class OrderService {
       );
 
       if (discountWallet === false) {
-        throw new Error("Monto a descontar supera al disponible en la wallet");
+        throw new BadRequestException(
+          "Monto a descontar supera al disponible en la wallet"
+        );
       }
 
       order!.status = OrderStatus.PAID;
@@ -129,7 +138,7 @@ export class OrderService {
 
       return { msg: "Orden confirmada exitosamente" };
     } catch (error: any) {
-      throw error;
+      this.soapError.handle(error);
     }
   }
 }
