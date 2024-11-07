@@ -1,41 +1,41 @@
 export class OrderValidation {
   public static validateCreateOrder(args: any) {
-    try {
+    return new Promise((resolve, reject) => {
       if (!args) {
-        throw new Error("Datos de la orden son requeridos");
+        reject("Datos de la orden son requeridos");
       }
 
       if (!args.dni) {
-        throw new Error("El dni es requerido");
+        reject("El dni es requerido");
       }
 
       if (!args.cellular) {
-        throw new Error("El cellular es requerido");
+        reject("El cellular es requerido");
       }
 
       if (!args.value && !args.amount) {
-        throw new Error("El monto o valor de la orden es requerido");
+        reject("El monto o valor de la orden es requerido");
       }
-    } catch (error) {
-      throw error;
-    }
+
+      resolve(args);
+    });
   }
 
   public static validateConfirmOrder(args: any) {
-    try {
+    return new Promise((resolve, reject) => {
       if (!args) {
-        throw new Error("Datos de confirmación son requeridos");
+        reject("Datos de confirmación son requeridos");
       }
 
       if (!args.sessionId) {
-        throw new Error("El sessionId es requerido");
+        reject("El sessionId es requerido");
       }
 
       if (!args.tokenConfirm) {
-        throw new Error("El token es requerido");
+        reject("El token es requerido");
       }
-    } catch (error) {
-      throw error;
-    }
+
+      resolve(args);
+    });
   }
 }
