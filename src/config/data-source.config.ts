@@ -1,3 +1,4 @@
+import path from "path";
 import { DataSource } from "typeorm";
 import { envs } from "./envs.config";
 
@@ -8,6 +9,6 @@ export const AppDataSource = new DataSource({
   username: envs.DB_USERNAME,
   password: envs.DB_PASSWORD,
   database: envs.DB_NAME,
-  entities: [`${process.cwd()}/src/entities/*.entity.{ts,js}`],
+  entities: [path.join(__dirname, "../src/entities/*.entity.{ts,js}")],
   synchronize: Boolean(envs.DB_SYNCHRONIZE),
 });
