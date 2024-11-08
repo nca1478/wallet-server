@@ -198,7 +198,7 @@
 
     <service name="UserService">
         <port name="UserServiceSoapPort" binding="tns:UserServiceSoapBinding">
-            <soap:address location="http://localhost:3000/wsdl/user"/>
+            <soap:address location="http://localhost:3000/wsdl/user?wsdl"/>
         </port>
     </service>
 </definitions>

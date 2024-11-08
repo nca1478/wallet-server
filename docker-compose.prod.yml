@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  soap-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    restart: always
+    environment:
+      - API_PORT=${API_PORT}
+      - API_HOST=${API_HOST}
+      - JWT_SESSION_SECRET=${JWT_SESSION_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - NODE_ENV=${NODE_ENV}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE}
+      - EMAIL_SERVICE=${EMAIL_SERVICE}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_AUTH_USER=${EMAIL_AUTH_USER}
+      - EMAIL_AUTH_PASS=${EMAIL_AUTH_PASS}
+      - EMAIL_SECURE=${EMAIL_SECURE}
+      - EMAIL_REJECT_UNAUTHORIZED=${EMAIL_REJECT_UNAUTHORIZED}
+    ports:
+      - "3000:3000"
+    depends_on:
+      wallet-db:
+        condition: service_healthy
+
+  wallet-db:
+    image: postgres
+    restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    expose:
+      - 5432:5432
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-data:

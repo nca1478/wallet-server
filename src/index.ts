@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { AppDataSource, envs } from "./config";
 import { SoapServices } from "./soap";
 
@@ -10,6 +11,9 @@ AppDataSource.initialize()
   .then(() => {
     const soapServices = new SoapServices(app);
     soapServices.start();
+
+    app.set("port", port);
+    app.use(cors());
 
     app.listen(port, () => {
       console.log(`SOAP server running on ${host}:${port}/wsdl`);

@@ -91,7 +91,7 @@
 
     <service name="WalletService">
         <port name="WalletServiceSoapPort" binding="tns:WalletServiceSoapBinding">
-            <soap:address location="http://localhost:3000/wsdl/wallet"/>
+            <soap:address location="http://localhost:3000/wsdl/wallet?wsdl"/>
         </port>
     </service>
 </definitions>

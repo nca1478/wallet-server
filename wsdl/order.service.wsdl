@@ -89,7 +89,7 @@
 
     <service name="OrderService">
         <port name="OrderServiceSoapPort" binding="tns:OrderServiceSoapBinding">
-            <soap:address location="http://localhost:3000/wsdl/Order"/>
+            <soap:address location="http://localhost:3000/wsdl/order?wsdl"/>
         </port>
     </service>
 </definitions>

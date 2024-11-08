@@ -200,7 +200,7 @@
 
     <service name="CustomerService">
         <port name="CustomerServiceSoapPort" binding="tns:CustomerServiceSoapBinding">
-            <soap:address location="http://localhost:3000/wsdl/customer"/>
+            <soap:address location="http://localhost:3000/wsdl/customer?wsdl"/>
         </port>
     </service>
 </definitions>
